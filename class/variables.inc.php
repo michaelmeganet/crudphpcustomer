@@ -101,18 +101,19 @@ Class VariableInvoiceDo {
 
 Class SQL extends Dbh {
 
-    protected $sql;
+    protected $sql; // class common variable
 
-    public function __construct($sql) {
-
-        $this->sql = $sql;
+    public function __construct($sql) {//from program line inject into constructor
+        $this->sql = $sql; //assign the protected $sql ($this->sql to the value of
+        // injected value $sql.
     }
 
     public function getResultRowArray() {
-        $resultset = array();
-        $sql = $this->sql;
+        $resultset = array(); //define empty array
+        $sql = $this->sql; // assign private $sql by the value of protected $sql
+        //                  ($this->sql)
         //echo "\$sql = $sql <br>";
-        $stmt = $this->connect()->prepare($sql);
+        $stmt = $this->connect()->prepare($sql); // $stmt must be local variable
         $stmt->execute();
         if ($stmt->rowCount()) {
             $row = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -181,7 +182,19 @@ Class SQL extends Dbh {
         //echo "\$result = $result <br>";
         return $result;
     }
+    public function getDelete() {
 
+        $sql = $this->sql;
+//        echo "\$sql = $sql <br>";
+        $stmt = $this->connect()->prepare($sql);
+
+        if ($stmt->execute()) {
+            $result = 'deleted';
+        } else {
+            $result = 'delete failed';
+        }
+        return $result;
+    }
 //    public function getPartialLimit(){
 //
 //        $sql = $this->sql;

@@ -20,7 +20,7 @@ include './class/phhdate.inc.php';
         <a  href="index.php"  class="button button-purple mt-12 pull-right">View Customer List</a>
         <h3>Create Customer Info</h3>
         <hr/>
-        <form method="post" action="" name="createForm" id="createForm">
+        <form method="post" action="check-customer-list.php" name="createForm" id="createForm">
 
             <div class="control-group form-group">
                 <div class="control-group">
@@ -449,6 +449,7 @@ include './class/phhdate.inc.php';
 
 
             <input type="submit" class="button button-green  pull-right" name="create_customer" value="Submit"/>
+
         </form>
     </div>
 </div>

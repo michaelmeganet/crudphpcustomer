@@ -53,6 +53,33 @@ class Customers {
         $this->getPostData = [];
     }
 
+    function create($post_data = array()) {
+
+        $this->getPostData = $post_data;
+
+        print_r($post_data);
+
+        $qr2 = "";
+        foreach ($post_data as $key => $value) {
+            #
+            if ($key != 'submit') {
+                ${$key} = trim($value);
+                $columnHeader = $key; // creates new variable based on $key values
+                echo "$" . $columnHeader . " = " . $$columnHeader . "<br>";
+                $qr2 .= "$" . $columnHeader . "= '{$$columnHeader}' , ";
+
+                if (isset($postdata['submit'])) {
+                    $qr2 .= " , ";
+                }
+            } else {
+                unset($postdata['submit']);
+            }
+
+            # If submit value is there, then add comma
+        }
+        echo "<br><br><br>" . $qr2 . "<br>";
+    }
+
     public function customer_list() {
 
         $sql = "SELECT * FROM customer_list ORDER BY cid asc ";
