@@ -1,7 +1,15 @@
 <?php
 include 'header.php';
 if (isset($_POST['create_customer'])) {
-    $customer_obj->create_customer_info2($_POST);
+    $customer_obj->create_customer_info2($_POST);// change here to $customer_obj->create($_POST);
+    //$customer_obj->create($_POST); make the implementation from here
+    // no need to post the parameters to check-customer-list.php
+    // check-customer-list.php is only for testing and easy to check the posetd variables
+    // in debug console of firefox .
+    // create_customer_info2($_POST) is my implementation of bindparam, 
+    // so you can follow my logic, just change this function to your function
+    // if I want to go back to use the first implementation, I could only change the function name
+    // to create_customer_info($_POST)
 }
 include './class/phhdate.inc.php';
 ?>
@@ -20,7 +28,8 @@ include './class/phhdate.inc.php';
         <a  href="index.php"  class="button button-purple mt-12 pull-right">View Customer List</a>
         <h3>Create Customer Info</h3>
         <hr/>
-        <form method="post" action="check-customer-list.php" name="createForm" id="createForm">
+        <form method="post" action="" name="createForm" id="createForm">
+          <!-- take out check-customer-list.php from action=""   -->
 
             <div class="control-group form-group">
                 <div class="control-group">
