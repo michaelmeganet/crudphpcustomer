@@ -133,7 +133,7 @@ class Customers {
         # end loop
         #------------------------------------------------------
         $qr2 .= $qrWhere;
-        echo "<br><br><br>" . $qr2 . "<br>";
+        #echo "<br><br><br>" . $qr2 . "<br>";
 
         $objSQL = new SQLBINDPARAM($qr2,$post_data);
         $result = $objSQL->UpdateData2();
