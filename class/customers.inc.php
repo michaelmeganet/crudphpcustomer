@@ -345,6 +345,78 @@ class Customers {
         }
     }
 
+    function update($post_data = array()) {
+        $this->getPostData = $post_data;
+        //print_r($post_data);
+        #-----------------------------
+        # preparation to do looping
+        //NOT neccessary
+//        reset($post_data);              //--> move pointer to the beginning of array
+//        start
+//        #echo "<br><br>".$startKeyArray."<br><br>";
+//        end($post_data); //--> move pointer to end of array
+//        $endKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
+//        # end preparation
+//        #-----------------------------
+//        #------------------------------------------------------
+//        $post_data is a fresh array when the timeit is injected into this function
+//        every things have been resetted, the pointer is in the start posision
+//        and all this instance end be ended after this function return the value
+//        to the host Object.
+//        so the next time this function being recall, every things will start and reset
+//        to prepare as fresh new object.
+//
+        # Begin loop process
+        if (isset($post_data)) {
+            $cid = $post_data['cid']; //assign and instantiate local variable $cid to the injected value
+            unset($post_data['cid']); // take out the cid from the array element
+        }
+        $qr2 = "UPDATE customer_list SET "; //--> creates main body for query
+        foreach ($post_data as $key => $value) {
+
+            ${$key} = trim($value);
+            $columnHeader = $key; // creates new variable based on $key values
+            echo $columnHeader . " = " . $$columnHeader . "<br>";
+
+            # code...
+            $qr2 .= $columnHeader . "=:{$columnHeader}";     //--> adds the key as parameter
+            //refer https://stackoverflow.com/questions/6092054/checking-during-array-iteration-if-the-current-element-is-the-last-element
+            // for checking the element is the last element of the array
+            // use $lastElement = end($array);
+            $lastElement = end($array); // assign array's last element
+            if ($columnHeader != $lastElement) {
+                $qr2 .= ", ";      //--> if not final key, writes comma to separate between indexes
+            } else {
+                #do nothing         //--> if yes, do nothing
+                $qr2 .= " ";
+            }
+
+
+            ##########################################################
+        }
+        # end loop
+        #------------------------------------------------------
+//        $qr2 .= $qrWhere;
+        echo "<br><br><br>" . $qr2 . "<br>";
+
+        $objSQL = new SQLBINDPARAM($qr2, $post_data);
+        $result = $objSQL->UpdateData2();
+
+        if ($result == 'Update ok!') {
+
+            $_SESSION['message'] = "Successfully Created Student Info";
+            #echo "Successfully Created Customer Info<br>";
+
+            header('Location: index.php');          //redirects
+        } else {
+            $error = "Fail to Created Customer Info <br>";
+            $_SESSION['message'] = "Please check this \$sql -> $qr2";
+            $url = "customercreatefail.php?err=$error";
+            //    redirect($url);
+            //header('Location: customercreatefail.php?err=$error');
+        }
+    }
+
     public function delete_customer_info_by_id($cid) {
 
         // $cid = $this->cid;
