@@ -370,7 +370,13 @@ class Customers {
         if (isset($post_data)) {
             $cid = $post_data['cid']; //assign and instantiate local variable $cid to the injected value
             unset($post_data['cid']); // take out the cid from the array element
+            unset($post_data['update_customer']);
         }
+        $arrayKeys = array_keys($post_data);
+        // Fetch last array key
+        $lastArrayKey = array_pop($arrayKeys);
+
+        echo "\$lastArrayKey = $lastArrayKey <br>";
         $qr2 = "UPDATE customer_list SET "; //--> creates main body for query
         foreach ($post_data as $key => $value) {
 
@@ -383,12 +389,11 @@ class Customers {
             //refer https://stackoverflow.com/questions/6092054/checking-during-array-iteration-if-the-current-element-is-the-last-element
             // for checking the element is the last element of the array
             // use $lastElement = end($array);
-            $lastElement = end($array); // assign array's last element
-            if ($columnHeader != $lastElement) {
+
+            if ($columnHeader != $lastArrayKey) {
                 $qr2 .= ", ";      //--> if not final key, writes comma to separate between indexes
             } else {
                 #do nothing         //--> if yes, do nothing
-                $qr2 .= " ";
             }
 
 
@@ -396,7 +401,7 @@ class Customers {
         }
         # end loop
         #------------------------------------------------------
-//        $qr2 .= $qrWhere;
+        $qr2 .= " WHERE cid = $cid ";
         echo "<br><br><br>" . $qr2 . "<br>";
 
         $objSQL = new SQLBINDPARAM($qr2, $post_data);
@@ -406,8 +411,7 @@ class Customers {
 
             $_SESSION['message'] = "Successfully Created Student Info";
             #echo "Successfully Created Customer Info<br>";
-
-            header('Location: index.php');          //redirects
+            // header('Location: index.php');          //redirects
         } else {
             $error = "Fail to Created Customer Info <br>";
             $_SESSION['message'] = "Please check this \$sql -> $qr2";
