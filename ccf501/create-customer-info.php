@@ -1,7 +1,10 @@
 <?php
 include 'header.php';
 if (isset($_POST['create_customer'])) {
-    $customer_obj->create_customer_info2($_POST);// change here to $customer_obj->create($_POST);
+    #$customer_obj->create_customer_info2($_POST);
+    unset($_POST['create_customer']);
+    $customer_obj->create($_POST);
+    // change here to $customer_obj->create($_POST);
     //$customer_obj->create($_POST); make the implementation from here
     // no need to post the parameters to check-customer-list.php
     // check-customer-list.php is only for testing and easy to check the posetd variables

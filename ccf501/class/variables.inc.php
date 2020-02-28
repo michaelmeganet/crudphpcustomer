@@ -472,7 +472,7 @@ Class SQLBINDPARAM extends SQL {
             # code...
             ${$key} = $value;
             $bindValue = $key;
-            $bindParamdata = "bindParam(:{$bindValue}, $$bindValue) == ".$$bindValue;
+            $bindParamdata = "bindParam(:{$bindValue}, $$bindValue) == ".$$bindValue; //this is for debugging purposes
             #echo "\$bindParamdata = $bindParamdata <br>";
             #########################################################
             # this line not successful, how to check in the future
@@ -498,5 +498,45 @@ Class SQLBINDPARAM extends SQL {
         }
         return $result;
     }
+    public function UpdateData2() {
 
+        $sql = $this->sql;
+        #echo $sql."<bR>";
+        $stmt = $this->connect()->prepare($sql);
+        $bindparamArray = $this->bindparamArray;
+//        unset($bindparamArray['submit']);
+//        print_r($bindparamArray);
+//        echo "<br>";
+//        $para = "";
+
+        foreach ($bindparamArray as $key => $value) {
+            # code...
+            ${$key} = $value;
+            $bindValue = $key;
+            $bindParamdata = "bindParam(:{$bindValue}, $$bindValue) == ".$$bindValue; //this is for debugging purposes
+            echo "\$bindParamdata = $bindParamdata <br>";
+            #########################################################
+            # this line not successful, how to check in the future
+            //  $stmt->bindParam(":$key", $value);
+            ##########################################################
+//          # this line is working,                                  #
+            # {$bindValue} = calls the $key value                    #
+            # $$bindValue = calls the value contained by $key array  #
+            ##########################################################
+
+            $stmt->bindParam(":{$bindValue}",$$bindValue);
+        }
+
+//        echo "=====var_dump \$stmt==================<br>";
+//        var_dump($stmt);
+//        echo "=====end of var_dump \$stmt==================<br>";
+
+
+        if ($stmt->execute()) {
+            $result = 'Update ok!';
+        } else {
+            $result = 'Update fail';
+        }
+        return $result;
+    }
 }

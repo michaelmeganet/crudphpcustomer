@@ -54,21 +54,17 @@ class Customers {
     }
 
     function create($post_data = array()) {
-
         $this->getPostData = $post_data;
-
-        print_r($post_data);
+        //print_r($post_data);
         #-----------------------------
         # preparation to do looping
         end($post_data); //--> move pointer to end of array
         $endKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
         # end preparation
         #-----------------------------
-
         #------------------------------------------------------
         # Begin loop process
-        $qr2 = "INSERT INTO customer_list SET ";
-
+        $qr2 = "INSERT INTO customer_list SET "; //--> creates main body for query
         foreach ($post_data as $key => $value) {
             ${$key} = trim($value);
             $columnHeader = $key; // creates new variable based on $key values
@@ -80,22 +76,18 @@ class Customers {
             }else{
                 #do nothing         //--> if yes, do nothing
             }
-
-            # If submit value is there, then add comma
         }
         # end loop
         #------------------------------------------------------
         echo "<br><br><br>" . $qr2 . "<br>";
 
-        $objSQL = new SQLBINDPARAM($qr2,$post_data); //--> prepares the query, and binds Parameters
+        $objSQL = new SQLBINDPARAM($qr2,$post_data);
         $result = $objSQL->InsertData2();
 
         if ($result == 'insert ok!') {
-
             $_SESSION['message'] = "Successfully Created Student Info";
             echo "Successfully Created Customer Info<br>";
-
-            header('Location: index.php');
+            header('Location: index.php'); //redirects site to index
         } else {
             $error = "Fail to Created Customer Info <br>";
             $_SESSION['message'] = "Please check this \$sql -> $qr2";
@@ -105,6 +97,61 @@ class Customers {
         }
     }
 
+    function update($post_data = array()) {
+        $this->getPostData = $post_data;
+        //print_r($post_data);
+        #-----------------------------
+        # preparation to do looping
+        reset($post_data);              //--> move pointer to the beginning of array
+        $startKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
+        #echo "<br><br>".$startKeyArray."<br><br>";
+        end($post_data); //--> move pointer to end of array
+        $endKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
+        # end preparation
+        #-----------------------------
+        #------------------------------------------------------
+        # Begin loop process
+        $qr2 = "UPDATE customer_list SET "; //--> creates main body for query
+        foreach ($post_data as $key => $value) {
+
+            ${$key} = trim($value);
+            $columnHeader = $key; // creates new variable based on $key values
+            echo $columnHeader." = ".$$columnHeader."<br>";
+            if ($columnHeader != $startKeyArray) {
+                # code...
+                $qr2 .= $columnHeader."=:{$columnHeader}";     //--> adds the key as parameter
+                if ($columnHeader != $endKeyArray) { 
+                    $qr2 .= ", ";      //--> if not final key, writes comma to separate between indexes
+                }else{
+                    #do nothing         //--> if yes, do nothing
+                }
+            }else{  #if the current key is the first key in array
+                $qrWhere = " WHERE $startKeyArray = {$$columnHeader}";     //adds the WHERE clause
+                unset($post_data[$startKeyArray]);                       //deletes the post data for cid afterwards
+            }
+        }
+        # end loop
+        #------------------------------------------------------
+        $qr2 .= $qrWhere;
+        echo "<br><br><br>" . $qr2 . "<br>";
+
+        $objSQL = new SQLBINDPARAM($qr2,$post_data);
+        $result = $objSQL->UpdateData2();
+
+        if ($result == 'Update ok!') {
+
+            $_SESSION['message'] = "Successfully Created Student Info";
+            #echo "Successfully Created Customer Info<br>";
+
+            header('Location: index.php');          //redirects
+        } else {
+            $error = "Fail to Created Customer Info <br>";
+            $_SESSION['message'] = "Please check this \$sql -> $qr2";
+            $url = "customercreatefail.php?err=$error";
+            //    redirect($url);
+            //header('Location: customercreatefail.php?err=$error');
+        }
+    }
     public function customer_list() {
 
         $sql = "SELECT * FROM customer_list ORDER BY cid asc ";
@@ -130,37 +177,37 @@ class Customers {
         $this->cid = $cid;
         print_r($post_data);
         //    $accno
-//    $co_name
-//    $co_no
-//    $co_code
-//    $address1
-//    $address2
-//    $address3
-//    $country
-//    $telephone_sales
-//    $fax_sales
-//    $handphone_sales
-//    $email_sales
-//    $attn_sales
-//    $telehpone_acc
-//    $fax_acc
-//    $handphone_acc
-//    $email_acc
-//    $attn_acc
-//    $groups
-//    $aid_cus
-//    $terms
-//    $credit_limit
-//    $currency
-//    $company
-//    $status
-//    $date_created
-//    $remark
-//    $credit_use
-//    $one_do_one_inv
-//    $can_not_migrate
-//    $regular
-//    $nobusy
+        //    $co_name
+        //    $co_no
+        //    $co_code
+        //    $address1
+        //    $address2
+        //    $address3
+        //    $country
+        //    $telephone_sales
+        //    $fax_sales
+        //    $handphone_sales
+        //    $email_sales
+        //    $attn_sales
+        //    $telehpone_acc
+        //    $fax_acc
+        //    $handphone_acc
+        //    $email_acc
+        //    $attn_acc
+        //    $groups
+        //    $aid_cus
+        //    $terms
+        //    $credit_limit
+        //    $currency
+        //    $company
+        //    $status
+        //    $date_created
+        //    $remark
+        //    $credit_use
+        //    $one_do_one_inv
+        //    $can_not_migrate
+        //    $regular
+        //    $nobusy
         if (isset($post_data['create_customer'])) {
             $accno = trim($post_data['accno']);
             $co_name = trim($post_data['co_name']);
@@ -208,7 +255,7 @@ class Customers {
                     . "'$date_created', '$remarks', '$credit_used', '$one_do_one_inv', '$cannot_migrate', '$regular', '$nobusy'"
                     . ") WHERE cid = $cid ";
 
-//        $result=  $this->conn->query($sql);
+            //$result=  $this->conn->query($sql);
             $objSQL = new SQL($sql);
 
             $result = $objSQL->InsertData();
@@ -228,11 +275,11 @@ class Customers {
             }
 
             unset($post_data['create_customer']);
-//            unset($post_data['credit_used']);
-//            unset($post_data['one_do_one_inv']);
-//            unset($post_data['cannot_migrate']);
-//            unset($post_data['regular']);
-//            unset($post_data['nobusy']);
+            //            unset($post_data['credit_used']);
+            //            unset($post_data['one_do_one_inv']);
+            //            unset($post_data['cannot_migrate']);
+            //            unset($post_data['regular']);
+            //            unset($post_data['nobusy']);
         }
     }
 
@@ -268,7 +315,7 @@ class Customers {
 
         if (isset($cid)) {
 
-//       $student_id= mysqli_real_escape_string($this->conn,trim($id));
+      // $student_id= mysqli_real_escape_string($this->conn,trim($id));
             $cid = trim($cid);
 
             $sql = "Select * from customer_list where cid='$cid'";

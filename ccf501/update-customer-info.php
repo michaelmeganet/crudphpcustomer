@@ -11,7 +11,11 @@ if (isset($_GET['id'])) {
     print_r($post);
     $customer_info = $customer_obj->view_customer_by_cid($_GET['id']);
     if (isset($_POST['update_customer']) && $_GET['id'] === $_POST['cid']) {
-        $customer_obj->update_customer_info($_POST);
+        unset($_POST['update_customer']);
+
+        #inserts current date into $postdata
+        $_POST['change_date'] = date('Y-m-d'); //--> gets current date as modification date  
+        $customer_obj->update($_POST); //--->change function here
     }
 } else {
     header('Location: index.php');
@@ -44,7 +48,10 @@ if (isset($_GET['id'])) {
                
                 echo "     <p class=\"help-block\"></p>                  
                 </div>";
-              
+                //note from ccf501
+                //this code loops using database column values as the base, 
+                //so i cannot force input the value of 'change_date'.
+                //for now i put the automation of this value during the update process above. (line 16-17)
             }
                 ?>
             
