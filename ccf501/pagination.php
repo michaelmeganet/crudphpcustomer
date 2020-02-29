@@ -49,7 +49,7 @@ $nextPage = $page+1;
 
 //begin making pagination
 # << < Page 1 of XXXX Pages. Displaying 1-15 of XXXXXX results. > >>
-echo "<div>"
+echo "<div>";
 if($page>1){			//--> create prev & first button if not first page
 	echo "<a href='{$pageurl}page=1'><< </a>";
 	echo "<a href='{$pageurl}page={$prevPage}'> <  </a>";
