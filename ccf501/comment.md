@@ -19,6 +19,8 @@ create-customer-info.php
 ---------------------------
 	- Shows a banner to notify user after creating new data.
 	- Adds a link to return to index.php after creating new data
+
+	
 28/2/2020 - ccf501 [Claudio Christyo]
 create-customer-info.php
 ---------------------------
