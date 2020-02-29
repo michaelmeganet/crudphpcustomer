@@ -2,10 +2,7 @@
 include 'header.php';
 include_once("./class/dbh.inc.php");
 include_once("./class/variables.inc.php");
-//$customer_list = $customer_obj->customer_list();
 $objCustomer = new Customers();
-$customer_list = $customer_obj->customer_list();
-$customer_list_numrows = $objCustomer->customer_list_numrows();
 ?>
 <div class="container " >
     <div class="row content">
@@ -17,6 +14,12 @@ $customer_list_numrows = $objCustomer->customer_list_numrows();
             echo "<p class='custom-alert'>" . $_SESSION['message'] . "</p>";
             unset($_SESSION['message']);
         }
+        ?>
+        <!-- Put pagination code here -->
+        <?php include_once "pagination.php";
+        //$customer_list = $customer_obj->customer_list(); 
+        $customer_list = $customer_obj->customer_list_limit($startLimit,$rowPage);
+        $customer_list_numrows = $objCustomer->customer_list_numrows();
         ?>
         <table class="table">
             <thead>

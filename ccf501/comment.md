@@ -1,6 +1,23 @@
 This is a collection of what files i've changed.
 
-29/2/2020 - ccf501 [Claudio Christyo]
+29/2/2020 (2) - ccf501 [Claudio Christyo]
+customers.inc.php
+---------------------------
+	- Added a new function, customer_list_limit. this function is used to call data, but with limitations.
+
+
+index.php
+---------------------------
+	- Added a line to show pagination
+	- moved the function to call customer list to below pagination
+	- modified the function customer_list() into customer_list_limit()
+
+pagination.php
+---------------------------
+	- Added pagination.php
+	- Modified pagination to omit table usage
+
+29/2/2020 (1) - ccf501 [Claudio Christyo]
 customers.inc.php
 ---------------------------
 	- Modified update() and create() function, replaced array pointer function with array_pop

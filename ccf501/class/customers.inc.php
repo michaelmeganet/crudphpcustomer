@@ -153,6 +153,16 @@ class Customers {
             //header('Location: customercreatefail.php?err=$error');
         }
     }
+
+    public function customer_list_limit($offset,$limit){
+
+        $sql = "SELECT * FROM customer_list ORDER BY cid ASC LIMIT {$offset},{$limit} ";
+        $objSQL = new SQL($sql);
+        $result = $objSQL->getResultRowArray();
+
+        return $result;
+    }
+
     public function customer_list() {
 
         $sql = "SELECT * FROM customer_list ORDER BY cid asc ";
