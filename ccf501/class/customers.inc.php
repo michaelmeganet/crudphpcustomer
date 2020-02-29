@@ -58,8 +58,8 @@ class Customers {
         //print_r($post_data);
         #-----------------------------
         # preparation to do looping
-        end($post_data); //--> move pointer to end of array
-        $endKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
+        $arrayKeys = array_keys($post_data);    //--> fetches the keys of array
+        $lastArrayKey = array_pop($arrayKeys); //--> fetches the last key of the compiled keys of array
         # end preparation
         #-----------------------------
         #------------------------------------------------------
@@ -71,7 +71,7 @@ class Customers {
             #echo $columnHeader." = ".$$columnHeader."<br>";
             $qr2 .= $columnHeader."=:{$columnHeader}";     //--> adds the key as parameter
 
-            if ($columnHeader != $endKeyArray) { 
+            if ($columnHeader != $lastArrayKey) { 
                 $qr2 .= ", ";      //--> if not final key, writes comma to separate between indexes
             }else{
                 #do nothing         //--> if yes, do nothing
@@ -79,15 +79,15 @@ class Customers {
         }
         # end loop
         #------------------------------------------------------
-        echo "<br><br><br>" . $qr2 . "<br>";
+        #echo "<br><br><br>" . $qr2 . "<br>";
 
         $objSQL = new SQLBINDPARAM($qr2,$post_data);
         $result = $objSQL->InsertData2();
 
         if ($result == 'insert ok!') {
             $_SESSION['message'] = "Successfully Created Student Info";
-            echo "Successfully Created Customer Info<br>";
-            header('Location: index.php'); //redirects site to index
+            #echo "Successfully Created Customer Info<br>";
+            #header('Location: index.php'); //redirects site to index
         } else {
             $error = "Fail to Created Customer Info <br>";
             $_SESSION['message'] = "Please check this \$sql -> $qr2";
@@ -99,14 +99,17 @@ class Customers {
 
     function update($post_data = array()) {
         $this->getPostData = $post_data;
+        /*$dbg = new DEBUG();     //--> creates object for debugging*/
+
         //print_r($post_data);
         #-----------------------------
         # preparation to do looping
-        reset($post_data);              //--> move pointer to the beginning of array
-        $startKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
-        #echo "<br><br>".$startKeyArray."<br><br>";
-        end($post_data); //--> move pointer to end of array
-        $endKeyArray = key($post_data); //--> fetches the value of currently pointed key in array
+        //fetch the cid value and deletes it from array
+        /**/   $cid = $post_data['cid'];
+        /**/   unset($post_data['cid']);
+
+        $arrayKeys = array_keys($post_data);    //--> fetches the keys of array
+        $lastArrayKey = array_pop($arrayKeys); //--> fetches the last key of the compiled keys of array
         # end preparation
         #-----------------------------
         #------------------------------------------------------
@@ -116,25 +119,22 @@ class Customers {
 
             ${$key} = trim($value);
             $columnHeader = $key; // creates new variable based on $key values
-            echo $columnHeader." = ".$$columnHeader."<br>";
-            if ($columnHeader != $startKeyArray) {
-                # code...
-                $qr2 .= $columnHeader."=:{$columnHeader}";     //--> adds the key as parameter
-                if ($columnHeader != $endKeyArray) { 
-                    $qr2 .= ", ";      //--> if not final key, writes comma to separate between indexes
-                }else{
-                    #do nothing         //--> if yes, do nothing
-                }
-            }else{  #if the current key is the first key in array
-                $qrWhere = " WHERE $startKeyArray = {$$columnHeader}";     //adds the WHERE clause
-                unset($post_data[$startKeyArray]);                       //deletes the post data for cid afterwards
+            #echo $columnHeader." = ".$$columnHeader."<br>";
+
+        /*$dbg->review($columnHeader." = ".$$columnHeader."<br>");*/ //this is for debugging, not yet implemented
+
+            $qr2 .= $columnHeader."=:{$columnHeader}";     //--> adds the key as parameter
+            if ($columnHeader != $lastArrayKey) { 
+                $qr2 .= ", ";      //--> if not final key, writes comma to separate between indexes
+            }else{
+                #do nothing         //--> if yes, do nothing
             }
         }
         # end loop
         #------------------------------------------------------
-        $qr2 .= $qrWhere;
+        $qr2 .= " WHERE cid = $cid";
         #echo "<br><br><br>" . $qr2 . "<br>";
-
+        /*$dbg->review($qr2);*/
         $objSQL = new SQLBINDPARAM($qr2,$post_data);
         $result = $objSQL->UpdateData2();
 
@@ -143,7 +143,8 @@ class Customers {
             $_SESSION['message'] = "Successfully Created Student Info";
             #echo "Successfully Created Customer Info<br>";
 
-            header('Location: index.php');          //redirects
+            //header('URL=./index.php');          //redirects
+            /*echo "<pre>"; print_r($dbg->showToConsole()); echo"</pre>";*/
         } else {
             $error = "Fail to Created Customer Info <br>";
             $_SESSION['message'] = "Please check this \$sql -> $qr2";
@@ -319,7 +320,7 @@ class Customers {
             $cid = trim($cid);
 
             $sql = "Select * from customer_list where cid='$cid'";
-            echo "line 181, \$sql = $sql <br>";
+            #echo "line 181, \$sql = $sql <br>";
 
             $objSQL = new SQL($sql);
 

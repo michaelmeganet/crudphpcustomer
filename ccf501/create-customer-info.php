@@ -30,6 +30,13 @@ include './class/phhdate.inc.php';
     <div class="row content">
         <a  href="index.php"  class="button button-purple mt-12 pull-right">View Customer List</a>
         <h3>Create Customer Info</h3>
+        <?php
+        if (isset($_SESSION['message'])) {
+            echo "<p class='custom-alert'>" . $_SESSION['message'] . "<br>
+                  Click <a href='./index.php'>here</a> to return.</p>";
+            unset($_SESSION['message']);
+        }
+        ?>
         <hr/>
         <form method="post" action="" name="createForm" id="createForm">
           <!-- take out check-customer-list.php from action=""   -->

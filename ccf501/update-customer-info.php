@@ -6,9 +6,9 @@ if (isset($_GET['id'])) {
     $post = $_POST;
     
     $getid = $_GET['id'];
-    echo "\$getid = $getid <br>";
-    echo "print_r(\$post) : <br>";
-    print_r($post);
+    #echo "\$getid = $getid <br>";
+    #echo "print_r(\$post) : <br>";
+    #print_r($post);
     $customer_info = $customer_obj->view_customer_by_cid($_GET['id']);
     if (isset($_POST['update_customer']) && $_GET['id'] === $_POST['cid']) {
         unset($_POST['update_customer']);
@@ -27,7 +27,8 @@ if (isset($_GET['id'])) {
         <h3>Update customer Info</h3>
         <?php
         if (isset($_SESSION['message'])) {
-            echo "<p class='custom-alert'>" . $_SESSION['message'] . "</p>";
+            echo "<p class='custom-alert'>" . $_SESSION['message'] . "<br>
+                  Click <a href='./index.php'>here</a> to return.</p>";
             unset($_SESSION['message']);
         }
         ?>
@@ -73,7 +74,7 @@ include 'footer.php';
 <script>
     var $my_form = $("#updateForm");
     $my_form.validate(function($form, e) {
-        alert("submitted")
+        alert("Data has been submitted")
     })
 </script>
 </body>

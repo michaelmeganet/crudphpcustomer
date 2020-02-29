@@ -11,6 +11,24 @@ function debug_to_console($data) {
     }
 }
 
+//trying to create a class to debugging to console, must be called using <pre></pre> tag//
+/*
+Class DEBUG {
+    private $log_array;
+
+    function __construct(){
+        $this->log_array = array();
+    }
+
+    function review($data){
+        array_push($this->log_array, $data);
+    }
+
+    function showToConsole(){
+        return $this->log_array;
+    }
+}
+*/
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -157,7 +175,7 @@ Class SQL extends Dbh {
     public function getUpdate() {
 
         $sql = $this->sql;
-        echo "Line 165 , in getUpdate function of Class SQL,  \$sql = $sql <br>";
+        //echo "Line 165 , in getUpdate function of Class SQL,  \$sql = $sql <br>";
         $stmt = $this->connect()->prepare($sql);
 
         if ($stmt->execute()) {
@@ -489,8 +507,6 @@ Class SQLBINDPARAM extends SQL {
 //        echo "=====var_dump \$stmt==================<br>";
 //        var_dump($stmt);
 //        echo "=====end of var_dump \$stmt==================<br>";
-
-
         if ($stmt->execute()) {
             $result = 'insert ok!';
         } else {
@@ -514,7 +530,7 @@ Class SQLBINDPARAM extends SQL {
             ${$key} = $value;
             $bindValue = $key;
             $bindParamdata = "bindParam(:{$bindValue}, $$bindValue) == ".$$bindValue; //this is for debugging purposes
-            echo "\$bindParamdata = $bindParamdata <br>";
+            #echo "\$bindParamdata = $bindParamdata <br>";
             #########################################################
             # this line not successful, how to check in the future
             //  $stmt->bindParam(":$key", $value);

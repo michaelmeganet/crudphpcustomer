@@ -1,5 +1,24 @@
 This is a collection of what files i've changed.
 
+29/2/2020 - ccf501 [Claudio Christyo]
+customers.inc.php
+---------------------------
+	- Modified update() and create() function, replaced array pointer function with array_pop
+	- Removed Header() operation
+
+variables.inc.php
+---------------------------
+	- Beautifies code
+
+update-customer-info.php
+---------------------------
+	- Adds a link to return to index.php after editing
+	- Changed the alert notification text when pressing Submit button.
+
+create-customer-info.php
+---------------------------
+	- Shows a banner to notify user after creating new data.
+	- Adds a link to return to index.php after creating new data
 28/2/2020 - ccf501 [Claudio Christyo]
 create-customer-info.php
 ---------------------------
