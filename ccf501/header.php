@@ -6,7 +6,26 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">  
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <link rel="stylesheet" href="./assets/style.css">
+        <script>
+            function updateValidate(){
+                if(window.confirm("Are you sure you want to submit?")){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
 
+            function redirectToIndex(){
+                window.alert("Update Successful.\nReturning to Customer List.");
+                window.location.href = './index.php';
+            }
+            /*var $my_form = $("#updateForm");
+            $my_form.validate(function($form, e) {
+                if (window.confirm("Are you sure you want to submit?")){
+                     window.location = index.php;
+                }
+            })*/
+        </script>
     </head>
     <body >
         <?php

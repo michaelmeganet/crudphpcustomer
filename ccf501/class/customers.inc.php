@@ -141,6 +141,7 @@ class Customers {
         if ($result == 'Update ok!') {
 
             $_SESSION['message'] = "Successfully Created Student Info";
+            $_SESSION['success'] = true;
             #echo "Successfully Created Customer Info<br>";
 
             //header('URL=./index.php');          //redirects
@@ -148,6 +149,7 @@ class Customers {
         } else {
             $error = "Fail to Created Customer Info <br>";
             $_SESSION['message'] = "Please check this \$sql -> $qr2";
+            $_SESSION['success'] = false;
             $url = "customercreatefail.php?err=$error";
             //    redirect($url);
             //header('Location: customercreatefail.php?err=$error');

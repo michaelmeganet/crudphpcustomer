@@ -21,20 +21,24 @@ if (isset($_GET['id'])) {
     header('Location: index.php');
 }
 ?>
-<div class="container " > 
+<div class="container" > 
     <div class="row content">
         <a href="index.php"  class="button button-purple mt-12 pull-right">View customer List</a> 
         <h3>Update customer Info</h3>
-        <?php
+        <?php    
         if (isset($_SESSION['message'])) {
             echo "<p class='custom-alert'>" . $_SESSION['message'] . "<br>
                   Click <a href='./index.php'>here</a> to return.</p>";
             unset($_SESSION['message']);
+            if ($_SESSION['success']){
+                echo "<script type='text/javascript'>redirectToIndex();</script>";
+                unset($_SESSION['success']);
+            }
         }
         ?>
 
         <hr/>
-        <form name="updateForm" id= "updateForm" method="post" action="">
+        <form name="updateForm" id= "updateForm" method="post" action="" onsubmit="return updateValidate()">
  <!--            <div class="control-group form-group">-->
      <?php
             foreach ($customer_info as $key => $value) {
@@ -45,7 +49,6 @@ if (isset($_GET['id'])) {
                     <label for=\"$keyname\" >$keyname*</label><br>
                     <input type=\"text\" class =\"input-sm form-control\" name=\"$keyname\" id=\"$keyname\" value= \"$value\" width=\"200\"  maxlength=\"50\"";
                   
-              
                
                 echo "     <p class=\"help-block\"></p>                  
                 </div>";
@@ -57,7 +60,7 @@ if (isset($_GET['id'])) {
                 ?>
             
             
-            <input type="submit" class="button button-green  pull-right" name="update_customer"  id="update_customer" value="Update"/>
+            <input type="submit" onclick="" class="button button-green  pull-right" name="update_customer"  id="update_customer" value="Update"/>
         </form> 
     </div>
 </div>
@@ -71,12 +74,7 @@ include 'footer.php';
 <script type="text/javascript" src="./assets/bootstrap.min.js"></script>
 <script type="text/javascript" src="./assets/validate.min.js"></script>
 <script type="text/javascript" src="./assets/validate_helper.min.js"></script>
-<script>
-    var $my_form = $("#updateForm");
-    $my_form.validate(function($form, e) {
-        alert("Data has been submitted")
-    })
-</script>
+
 </body>
 </html>
 

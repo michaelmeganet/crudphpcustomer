@@ -1,6 +1,14 @@
 This is a collection of what files i've changed.
 
 29/2/2020 (2) - ccf501 [Claudio Christyo]
+update-customer-info.php
+---------------------------
+	- modified form to return javascript function location in header.php
+	- moved javascript function from the bottom line, into header.php
+	- added line to show popup dialog after update processed, and redirects user to index.php
+
+header.php
+	- modified to includejavascript functions from update-customer-info.php
 customers.inc.php
 ---------------------------
 	- Added a new function, customer_list_limit. this function is used to call data, but with limitations.
